@@ -1,10 +1,13 @@
 package banking.rest.api.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,15 +36,20 @@ public class BankControllerTest {
 	@MockBean
 	private BankService bankService;
 	
+	@Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+	
 	@Test
-	public void testCreateBank() throws Exception{
+	public void testAddBank() throws Exception {
 		
-		Bank mockBank = new Bank();
-		mockBank.setName("SG");
-				
+		//Given
+		Bank mockBank = new Bank(2, "SG");
 		String URI = "/addNewBank";
 		
-		Mockito.when(bankService.save(Mockito.any(Bank.class))).thenReturn(mockBank);		
+		//When
+		Mockito.when(bankService.save(mockBank)).thenReturn(mockBank);		
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post(URI)
@@ -53,27 +61,22 @@ public class BankControllerTest {
 		
 		String outputInJson = response.getContentAsString();
 		
-		//To make this test successful
+		//Then
 		assertEquals(outputInJson, "Bank added Successfully");
 		
-		//To make this test failed
-		//assertEquals(outputInJson, "Bank added Successfully no");
-		
+		//And 	
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 	
 	@Test
 	public void testGetBankById() throws Exception{
 		
+		//Given
 		Bank mockBank = new Bank(1, "CIH");
+		String URI = "/banks/"+mockBank.getId();
 		
-		//To make this test failed
-		//Mockito.when(bankService.findById(1000)).thenReturn(mockBank);
-		
-		//To make this test successful
-		Mockito.when(bankService.findById(Mockito.anyLong())).thenReturn(mockBank);
-		
-		String URI = "/banks/1";
+		//When
+		Mockito.when(bankService.findById(mockBank.getId())).thenReturn(mockBank);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.get(URI)
@@ -86,9 +89,23 @@ public class BankControllerTest {
 		String expectedJson = this.mapToJson(mockBank);
 		String outputInJson = response.getContentAsString();
 		
+		//Then
 		assertEquals(outputInJson, expectedJson);
 	}
-
+	
+	@Test
+	public void testDeleteBank() throws Exception {
+		//Given
+		Bank mockBank = new Bank(1, "CIH");
+        
+		//When
+		bankService.deleteById(mockBank.getId());		
+        final Bank removed = bankService.findById(mockBank.getId());
+      
+	   //Then
+        assertNull(removed);
+	}
+	
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);

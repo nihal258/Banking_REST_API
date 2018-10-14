@@ -46,5 +46,5 @@ public class BankController {
 	@DeleteMapping("/banks/delete/{id}")
 	public void deleteBank(@PathVariable long id) {
 		bankService.deleteById(id);
-	}
+	}	
 }
