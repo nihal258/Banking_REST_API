@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import banking.rest.api.data.entity.BankEntity;
 import banking.rest.api.data.entity.ClientEntity;
 
 @RunWith(SpringRunner.class)
@@ -22,12 +23,22 @@ public class ClientEntityRepositoryTest {
     private ClientEntityRepository clientEntityRepository;
 	
 	@Autowired
+    private BankEntityRepository bankEntityRepository;
+	
+	@Autowired
 	private TestEntityManager entityManager;
+	
+	private BankEntity getBankInfos() {
+		BankEntity bankInserted = new BankEntity("CIH");
+    	this.entityManager.persist(bankInserted);    	
+    	return this.bankEntityRepository.findById(bankInserted.getId()).get();
+	}
 	
 	@Test
     public void should_store_a_client() {
     	//Given
-    	ClientEntity clientInserted = new ClientEntity("Client", "Client");
+		BankEntity bank = this.getBankInfos();
+    	ClientEntity clientInserted = new ClientEntity("Client", "Client", bank.getId());
     	
     	//When
     	this.entityManager.persist(clientInserted);    	
@@ -51,8 +62,10 @@ public class ClientEntityRepositoryTest {
 	@Test
 	public void should_delete_all_clients() {
 		//Given
-    	ClientEntity client1 = new ClientEntity("Client1", "Client1");
-    	ClientEntity client2 = new ClientEntity("Client2", "Client2");
+		BankEntity bank = this.getBankInfos();
+		
+    	ClientEntity client1 = new ClientEntity("Client1", "Client1", bank.getId());
+    	ClientEntity client2 = new ClientEntity("Client2", "Client2", bank.getId());
     	
     	//When
     	this.entityManager.persist(client1);
@@ -67,9 +80,11 @@ public class ClientEntityRepositoryTest {
 	@Test
 	public void should_find_all_clients() {
 		//Given
-		ClientEntity client1 = new ClientEntity("Client1", "Client1");
-		ClientEntity client2 = new ClientEntity("Client2", "Client2");
-		ClientEntity client3 = new ClientEntity("Client3", "Client3");
+		BankEntity bank = this.getBankInfos();
+		
+		ClientEntity client1 = new ClientEntity("Client1", "Client1", bank.getId());
+		ClientEntity client2 = new ClientEntity("Client2", "Client2", bank.getId());
+		ClientEntity client3 = new ClientEntity("Client3", "Client3", bank.getId());
  
 		//When		
 		this.entityManager.persist(client1);
@@ -87,8 +102,10 @@ public class ClientEntityRepositoryTest {
 	@Test
 	public void should_find_client_by_id() {		
 		//Given
-		ClientEntity client1 = new ClientEntity("Client1", "Client1");
-		ClientEntity client2 = new ClientEntity("Client2", "Client2");
+		BankEntity bank = this.getBankInfos();
+		
+		ClientEntity client1 = new ClientEntity("Client1", "Client1", bank.getId());
+		ClientEntity client2 = new ClientEntity("Client2", "Client2", bank.getId());
  
 		//When
 		this.entityManager.persist(client1);

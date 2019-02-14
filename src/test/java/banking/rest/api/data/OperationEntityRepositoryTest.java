@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import banking.rest.api.data.entity.BankEntity;
+import banking.rest.api.data.entity.ClientEntity;
 import banking.rest.api.data.entity.OperationEntity;
 
 @RunWith(SpringRunner.class)
@@ -24,10 +26,40 @@ public class OperationEntityRepositoryTest {
 	@Autowired
 	private TestEntityManager entityManager;
 	
+	@Autowired
+    private BankEntityRepository bankEntityRepository;
+	
+	@Autowired
+    private ClientEntityRepository clientEntityRepository;
+	
+	private BankEntity getBankInfos() {
+		BankEntity bankInserted = new BankEntity("CIH");
+    	this.entityManager.persist(bankInserted);    	
+    	return this.bankEntityRepository.findById(bankInserted.getId()).get();
+	}
+	
+	private ClientEntity getClient1Infos() {  	
+    	BankEntity bank =  this.getBankInfos();
+    	
+    	ClientEntity client1Inserted = new ClientEntity("Client1", "Client1", bank.getId());
+    	this.entityManager.persist(client1Inserted);    	
+    	return this.clientEntityRepository.findById(client1Inserted.getId()).get();
+	}
+	
+	private ClientEntity getClient2Infos() {
+		BankEntity bank =  this.getBankInfos();
+		
+		ClientEntity client2Inserted = new ClientEntity("Client2", "Client2", bank.getId());
+    	this.entityManager.persist(client2Inserted);    	
+    	return this.clientEntityRepository.findById(client2Inserted.getId()).get();
+	}
+	
 	@Test
     public void should_store_an_operation() {
     	//Given
-    	OperationEntity operationInserted = new OperationEntity(1, 1, 100, 'D', "MAD");
+		ClientEntity client1 = this.getClient1Infos();
+		ClientEntity client2 = this.getClient2Infos();
+    	OperationEntity operationInserted = new OperationEntity(client1.getId(), client2.getId(), 100, 'D', "MAD");
     	
     	//When
     	this.entityManager.persist(operationInserted);    	
@@ -52,8 +84,11 @@ public class OperationEntityRepositoryTest {
 	@Test
 	public void should_delete_all_operations() {
 		//Given
-		OperationEntity operation1 = new OperationEntity(1, 1, 100, 'D', "MAD");
-		OperationEntity operation2 = new OperationEntity(1, 1, 200, 'R', "USD");
+		ClientEntity client1 = this.getClient1Infos();
+		ClientEntity client2 = this.getClient2Infos();
+		
+		OperationEntity operation1 = new OperationEntity(client1.getId(), client2.getId(), 100, 'D', "MAD");
+		OperationEntity operation2 = new OperationEntity(client1.getId(), client2.getId(), 200, 'R', "USD");
     	
     	//When
     	this.entityManager.persist(operation1);
@@ -68,9 +103,12 @@ public class OperationEntityRepositoryTest {
 	@Test
 	public void should_find_all_operations() {
 		//Given
-		OperationEntity operation1 = new OperationEntity(1, 1, 100, 'D', "MAD");
-		OperationEntity operation2 = new OperationEntity(1, 1, 200, 'R', "USD");
-		OperationEntity operation3 = new OperationEntity(1, 1, 300, 'R', "EUR");
+		ClientEntity client1 = this.getClient1Infos();
+		ClientEntity client2 = this.getClient2Infos();
+		
+		OperationEntity operation1 = new OperationEntity(client1.getId(), client2.getId(), 100, 'D', "MAD");
+		OperationEntity operation2 = new OperationEntity(client1.getId(), client2.getId(), 200, 'R', "USD");
+		OperationEntity operation3 = new OperationEntity(client1.getId(), client2.getId(), 300, 'R', "EUR");
  
 		//When
 		this.entityManager.persist(operation1);
@@ -88,8 +126,11 @@ public class OperationEntityRepositoryTest {
 	@Test
 	public void should_find_operation_by_id() {		
 		//Given
-		OperationEntity operation1 = new OperationEntity(1, 1, 100, 'D', "MAD");
-		OperationEntity operation2 = new OperationEntity(1, 1, 200, 'R', "USD");
+		ClientEntity client1 = this.getClient1Infos();
+		ClientEntity client2 = this.getClient2Infos();
+		
+		OperationEntity operation1 = new OperationEntity(client1.getId(), client2.getId(), 100, 'D', "MAD");
+		OperationEntity operation2 = new OperationEntity(client1.getId(), client2.getId(), 200, 'R', "USD");
  
 		//When
 		this.entityManager.persist(operation1);
