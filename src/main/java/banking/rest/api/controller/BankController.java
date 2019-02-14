@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import banking.rest.api.model.Bank;
+import banking.rest.api.data.entity.BankEntity;
 import banking.rest.api.service.BankService;
 
 @RestController
@@ -20,30 +20,30 @@ public class BankController {
 	@Autowired
 	private BankService bankService;
 	
-	@RequestMapping(value = "/addNewBank", method = RequestMethod.POST)
-	public String newBank(Bank bank) {
-		bankService.save(bank);
+	@RequestMapping(value = "/bank")
+	public ModelAndView addNewBank() {
+		BankEntity bankEntity = new BankEntity();
+		return new ModelAndView("bank/newBank", "form", bankEntity);
+	}
+	
+	@RequestMapping(value = "/bank", method = RequestMethod.POST)
+	public String newBank(BankEntity bankEntity) {
+		bankService.save(bankEntity);
 		return ("Bank added Successfully");
 	}
 	
-	@RequestMapping(value = "/addNewBank", method = RequestMethod.GET)
-	public ModelAndView addNewBank() {
-		Bank bank = new Bank();
-		return new ModelAndView("bank/newBank", "form", bank);
-	}
-	
-	@RequestMapping(value = "/listBanks", method = RequestMethod.GET)
+	@RequestMapping(value = "/banks")
 	public ModelAndView banks() {
-		List<Bank> allBanks = bankService.findAll();
+		List<BankEntity> allBanks = bankService.findAll();
 		return new ModelAndView("bank/allBanks", "banks", allBanks);
 	}
 	
 	@GetMapping("/banks/{id}")
-	public Bank retrieveBank(@PathVariable long id) {
+	public BankEntity retrieveBank(@PathVariable long id) {
 		return bankService.findById(id);
 	}
 	
-	@DeleteMapping("/banks/delete/{id}")
+	@DeleteMapping("/banks/{id}")
 	public void deleteBank(@PathVariable long id) {
 		bankService.deleteById(id);
 	}	

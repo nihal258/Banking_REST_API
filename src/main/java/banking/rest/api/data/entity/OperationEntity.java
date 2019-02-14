@@ -1,4 +1,4 @@
-package banking.rest.api.model;
+package banking.rest.api.data.entity;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Operation {
+public class OperationEntity {
 	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
@@ -26,6 +26,27 @@ public class Operation {
 	
 	private Date date;
 	
+	public OperationEntity() {
+		super();
+	}
+	
+	public OperationEntity(long fromID, long toID, long amount, char type, String currency) {
+		super();
+		this.fromID = fromID;
+		this.toID = toID;
+		this.amount = amount;
+		this.type = type;
+		this.currency = currency;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public long getAmount() {
 		return amount;
 	}

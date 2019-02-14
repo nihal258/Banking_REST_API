@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import banking.rest.api.model.Client;
+import banking.rest.api.data.entity.ClientEntity;
 import banking.rest.api.service.ClientService;
 
 @RestController
@@ -20,26 +20,26 @@ public class ClientController {
 	@Autowired
 	private ClientService clientService;
 
-	@RequestMapping(value = "/addNewClient", method = RequestMethod.POST)
-	public String newEmployee(Client client) {
-		clientService.save(client);
-		return ("Client added Successfully");
-	}
-
-	@RequestMapping(value = "/addNewClient", method = RequestMethod.GET)
+	@RequestMapping(value = "/client")
 	public ModelAndView addNewClient() {
-		Client client = new Client();
-		return new ModelAndView("client/newClient", "form", client);
+		ClientEntity clientEntity = new ClientEntity();
+		return new ModelAndView("client/newClient", "form", clientEntity);
 	}
+	
+	@RequestMapping(value = "/client", method = RequestMethod.POST)
+	public String newEmployee(ClientEntity clientEntity) {
+		clientService.save(clientEntity);
+		return ("Client added Successfully");
+	}	
 
-	@RequestMapping(value = "/listClients", method = RequestMethod.GET)
+	@RequestMapping(value = "/clients")
 	public ModelAndView clients() {
-		List<Client> allClients = clientService.findAll();
+		List<ClientEntity> allClients = clientService.findAll();
 		return new ModelAndView("client/allClients", "clients", allClients);
 	}
 	
 	@GetMapping("/clients/{id}")
-	public Client retrieveClient(@PathVariable long id) {
+	public ClientEntity retrieveClient(@PathVariable long id) {
 		return clientService.findById(id);
 	}
 

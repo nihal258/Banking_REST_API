@@ -22,29 +22,29 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import banking.rest.api.data.entity.BankEntity;
-import banking.rest.api.service.BankService;
+import banking.rest.api.data.entity.ClientEntity;
+import banking.rest.api.service.ClientService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class BankControllerTest {
+public class ClientControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
-	private BankService bankService;
+	private ClientService clientService;
 	
-	BankEntity mockBank = new BankEntity("SG");
-	
+	ClientEntity mockClient = new ClientEntity("Nihal", "Nihal");
+
 	@Test
-	public void testAddBank() throws Exception {
-		//Given		
-		String URI = "/bank";
+	public void testAddClient() throws Exception {
+		//Given
+		String URI = "/client";
 		
 		//When
-		Mockito.when(bankService.save(mockBank)).thenReturn(mockBank);		
+		Mockito.when(clientService.save(mockClient)).thenReturn(mockClient);		
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post(URI)
@@ -57,19 +57,19 @@ public class BankControllerTest {
 		String outputInJson = response.getContentAsString();
 		
 		//Then
-		assertEquals(outputInJson, "Bank added Successfully");
+		assertEquals(outputInJson, "Client added Successfully");
 		
 		//And 	
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 	
 	@Test
-	public void testGetBankById() throws Exception {
+	public void testGetClientById() throws Exception {
 		//Given
-		String URI = "/banks/"+mockBank.getId();
+		String URI = "/clients/"+mockClient.getId();
 		
 		//When
-		Mockito.when(bankService.findById(mockBank.getId())).thenReturn(mockBank);
+		Mockito.when(clientService.findById(mockClient.getId())).thenReturn(mockClient);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.get(URI)
@@ -79,7 +79,7 @@ public class BankControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		String expectedJson = this.mapToJson(mockBank);
+		String expectedJson = this.mapToJson(mockClient);
 		String outputInJson = response.getContentAsString();
 		
 		//Then
@@ -87,12 +87,12 @@ public class BankControllerTest {
 	}
 	
 	@Test
-	public void testDeleteBank() throws Exception {
+	public void testDeleteClient() throws Exception {
 		//Given
         
 		//When
-		bankService.deleteById(mockBank.getId());		
-        final BankEntity removed = bankService.findById(mockBank.getId());
+		clientService.deleteById(mockClient.getId());		
+        final ClientEntity removed = clientService.findById(mockClient.getId());
       
 	   //Then
         assertNull(removed);

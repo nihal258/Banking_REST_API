@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import banking.rest.api.model.Operation;
+import banking.rest.api.data.entity.OperationEntity;
 import banking.rest.api.service.OperationService;
 
 @RestController
@@ -20,26 +20,26 @@ public class OperationController {
 	@Autowired
 	private OperationService operationService;
 
-	@RequestMapping(value = "/addNewOperation", method = RequestMethod.POST)
-	public String newOperation(Operation operation) {
-		operationService.save(operation);
-		return ("Operation added Successfully");
-	}
-
-	@RequestMapping(value = "/addNewOperation", method = RequestMethod.GET)
+	@RequestMapping(value = "/operation")
 	public ModelAndView addNewOperation() {
-		Operation operation = new Operation();
-		return new ModelAndView("operation/newOperation", "form", operation);
+		OperationEntity operationEntity = new OperationEntity();
+		return new ModelAndView("operation/newOperation", "form", operationEntity);
 	}
+	
+	@RequestMapping(value = "/operation", method = RequestMethod.POST)
+	public String newOperation(OperationEntity operationEntity) {
+		operationService.save(operationEntity);
+		return ("Operation added Successfully");
+	}	
 
-	@RequestMapping(value = "/listOperations", method = RequestMethod.GET)
+	@RequestMapping(value = "/operations")
 	public ModelAndView operations() {
-		List<Operation> allOperations = operationService.findAll();
+		List<OperationEntity> allOperations = operationService.findAll();
 		return new ModelAndView("operation/allOperations", "operations", allOperations);
 	}
 	
 	@GetMapping("/operations/{id}")
-	public Operation retrieveOperation(@PathVariable long id) {
+	public OperationEntity retrieveOperation(@PathVariable long id) {
 		return operationService.findById(id);
 	}
 

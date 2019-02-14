@@ -1,4 +1,4 @@
-package banking.rest.api.model;
+package banking.rest.api.data.entity;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Bank {
+public class BankEntity {
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
@@ -20,13 +20,18 @@ public class Bank {
 	
 	@OneToMany
 	@JoinColumn(name = "bankId")
-	private List<Client> listClients;
+	private List<ClientEntity> listClients;
 	
-	public Bank() {
+	public BankEntity() {
 		super();
 	}
-
-	public Bank(long id, String name) {
+	
+	public BankEntity(String name) {
+		super();
+		this.name = name;
+	}
+	
+	public BankEntity(long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -48,11 +53,11 @@ public class Bank {
 		this.name = name;
 	}
 	
-	public List<Client> getListClients() {
+	public List<ClientEntity> getListClients() {
 		return listClients;
 	}
 
-	public void setListClients(List<Client> listClients) {
+	public void setListClients(List<ClientEntity> listClients) {
 		this.listClients = listClients;
 	}
 
