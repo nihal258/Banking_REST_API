@@ -38,7 +38,7 @@ public void testFindById() {
 	operationEntity.setCurrency("USD");
 	operationEntity.setType('D');
 	
-	Mockito.when(operationRepository.save(Mockito.any(OperationEntity.class)))
+	Mockito.when(operationRepository.save(operationEntity))
 	        .thenAnswer(new Answer<OperationEntity>() {
 	            public OperationEntity answer(InvocationOnMock invocation) throws Throwable {
 	                OperationEntity operation = (OperationEntity) invocation.getArguments()[0];
@@ -94,7 +94,7 @@ public void testDeleteById() {
 	operationEntity.setCurrency("USD");
 	operationEntity.setType('D');
 	
-	Mockito.when(operationRepository.save(Mockito.any(OperationEntity.class)))
+	Mockito.when(operationRepository.save(operationEntity))
 	        .thenAnswer(new Answer<OperationEntity>() {
 	            public OperationEntity answer(InvocationOnMock invocation) throws Throwable {
 	            	OperationEntity operation = (OperationEntity) invocation.getArguments()[0];

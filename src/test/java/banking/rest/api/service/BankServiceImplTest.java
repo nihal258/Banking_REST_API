@@ -34,7 +34,7 @@ public void testFindById() {
 	BankEntity bankEntity = new BankEntity();
 	bankEntity.setName("BNPP");
 	
-	Mockito.when(bankRepository.save(Mockito.any(BankEntity.class)))
+	Mockito.when(bankRepository.save(bankEntity))
 	        .thenAnswer(new Answer<BankEntity>() {
 	            public BankEntity answer(InvocationOnMock invocation) throws Throwable {
 	                BankEntity bank = (BankEntity) invocation.getArguments()[0];
@@ -72,7 +72,7 @@ public void testDeleteById() {
 	BankEntity bankEntity = new BankEntity();
 	bankEntity.setName("BNPP");
 	
-	Mockito.when(bankRepository.save(Mockito.any(BankEntity.class)))
+	Mockito.when(bankRepository.save(bankEntity))
 	        .thenAnswer(new Answer<BankEntity>() {
 	            public BankEntity answer(InvocationOnMock invocation) throws Throwable {
 	                BankEntity bank = (BankEntity) invocation.getArguments()[0];

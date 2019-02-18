@@ -34,7 +34,7 @@ public void testFindById() {
 	clientEntity.setFirstName("Client");
 	clientEntity.setLastName("Client");
 	
-	Mockito.when(clientRepository.save(Mockito.any(ClientEntity.class)))
+	Mockito.when(clientRepository.save(clientEntity))
 	        .thenAnswer(new Answer<ClientEntity>() {
 	            public ClientEntity answer(InvocationOnMock invocation) throws Throwable {
 	                ClientEntity client = (ClientEntity) invocation.getArguments()[0];
@@ -76,7 +76,7 @@ public void testDeleteById() {
 	clientEntity.setFirstName("Client");
 	clientEntity.setLastName("Client");
 	
-	Mockito.when(clientRepository.save(Mockito.any(ClientEntity.class)))
+	Mockito.when(clientRepository.save(clientEntity))
 	        .thenAnswer(new Answer<ClientEntity>() {
 	            public ClientEntity answer(InvocationOnMock invocation) throws Throwable {
 	                ClientEntity client = (ClientEntity) invocation.getArguments()[0];
