@@ -32,17 +32,17 @@ public class ClientEntity {
 		super();
 	}
 
+	public ClientEntity(String firstName, String lastName) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+	
 	public ClientEntity(String firstName, String lastName, long bankId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.bankId = bankId;
-	}
-	
-	public ClientEntity(String firstName, String lastName) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
 	}
 	
 	public long getId() {

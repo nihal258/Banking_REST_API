@@ -14,7 +14,7 @@ import banking.rest.api.data.entity.OperationEntity;
 import banking.rest.api.service.OperationService;
 
 @Service
-class OperationServiceImpl implements OperationService {
+public class OperationServiceImpl implements OperationService {
 	
 	@Autowired
 	private OperationEntityRepository operationDAO;
@@ -27,7 +27,7 @@ class OperationServiceImpl implements OperationService {
 		operationEntity.setDate(new Date());
 		operationDAO.save(operationEntity);
 		
-		doOperationOnAccount(operationEntity.getFromID(), operationEntity.getToID(), operationEntity.getType(), operationEntity.getAmount());
+		//doOperationOnAccount(operationEntity.getFromID(), operationEntity.getToID(), operationEntity.getType(), operationEntity.getAmount());
 		
 		return operationEntity;
 	}

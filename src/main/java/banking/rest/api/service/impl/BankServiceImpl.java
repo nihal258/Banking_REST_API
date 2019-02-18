@@ -11,7 +11,7 @@ import banking.rest.api.data.entity.BankEntity;
 import banking.rest.api.service.BankService;
 
 @Service
-class BankServiceImpl implements BankService {
+public class BankServiceImpl implements BankService {
 	
 	@Autowired
 	private BankEntityRepository bankDAO;

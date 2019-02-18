@@ -11,7 +11,7 @@ import banking.rest.api.data.entity.ClientEntity;
 import banking.rest.api.service.ClientService;
 
 @Service
-class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl implements ClientService {
 	
 	@Autowired
 	private ClientEntityRepository clientDAO;
