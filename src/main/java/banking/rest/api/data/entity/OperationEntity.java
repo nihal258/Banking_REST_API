@@ -2,12 +2,13 @@ package banking.rest.api.data.entity;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+import lombok.Data;
+
+@Data
 public class OperationEntity {
 	
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,62 +38,6 @@ public class OperationEntity {
 		this.amount = amount;
 		this.type = type;
 		this.currency = currency;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getAmount() {
-		return amount;
-	}
-
-	public void setAmount(long amount) {
-		this.amount = amount;
-	}
-	
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	public char getType() {
-		return type;
-	}
-
-	public void setType(char type) {
-		this.type = type;
-	}
-
-	public long getFromID() {
-		return fromID;
-	}
-
-	public void setFromID(long fromID) {
-		this.fromID = fromID;
-	}
-
-	public long getToID() {
-		return toID;
-	}
-
-	public void setToID(long toID) {
-		this.toID = toID;
 	}
 
 	@Override
