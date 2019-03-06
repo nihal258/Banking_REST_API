@@ -39,11 +39,10 @@ public class OperationControllerTest {
 	OperationEntity mockOperation = new OperationEntity(1,1,100,'R',"MAD");
 	
 	@Test
-	public void testAddOperation() throws Exception {
-		//Given
+	public void should_return_operation_added_ok_when_add_new_operation() throws Exception {
+
 		String URI = "/operation";
 		
-		//When
 		Mockito.when(operationService.save(mockOperation)).thenReturn(mockOperation);		
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -56,19 +55,32 @@ public class OperationControllerTest {
 		
 		String outputInJson = response.getContentAsString();
 		
-		//Then
 		assertEquals(outputInJson, "Operation added Successfully");
+	}
+	
+	@Test
+	public void should_return_http_status_200_when_add_new_operation() throws Exception {
+
+		String URI = "/operation";
 		
-		//And 	
+		Mockito.when(operationService.save(mockOperation)).thenReturn(mockOperation);		
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post(URI)
+				.contentType(MediaType.APPLICATION_JSON_VALUE);
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		MockHttpServletResponse response = result.getResponse();
+		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 	
 	@Test
-	public void testGetOperationById() throws Exception {
-		//Given
+	public void should_return_existant_operation_when_retrieving_by_id() throws Exception {
+
 		String URI = "/operations/"+mockOperation.getId();
 		
-		//When
 		Mockito.when(operationService.findById(mockOperation.getId())).thenReturn(mockOperation);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -82,19 +94,15 @@ public class OperationControllerTest {
 		String expectedJson = this.mapToJson(mockOperation);
 		String outputInJson = response.getContentAsString();
 		
-		//Then
 		assertEquals(outputInJson, expectedJson);		
 	}
 	
 	@Test
-	public void testDeleteOperation() throws Exception {
-		//Given
-        
-		//When
+	public void should_delete_operation_when_retrieving_by_id() throws Exception {
+
 		operationService.deleteById(mockOperation.getId());		
         final OperationEntity removed = operationService.findById(mockOperation.getId());
       
-	   //Then
         assertNull(removed);	
 	}
 

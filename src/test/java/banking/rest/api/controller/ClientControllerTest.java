@@ -39,11 +39,10 @@ public class ClientControllerTest {
 	ClientEntity mockClient = new ClientEntity("Nihal", "Nihal");
 
 	@Test
-	public void testAddClient() throws Exception {
-		//Given
+	public void should_return_client_added_ok_when_adding_new_client() throws Exception {
+
 		String URI = "/client";
 		
-		//When
 		Mockito.when(clientService.save(mockClient)).thenReturn(mockClient);		
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -56,19 +55,32 @@ public class ClientControllerTest {
 		
 		String outputInJson = response.getContentAsString();
 		
-		//Then
 		assertEquals(outputInJson, "Client added Successfully");
+	}
+	
+	@Test
+	public void should_return_http_status_200_when_adding_new_client() throws Exception {
+
+		String URI = "/client";
 		
-		//And 	
+		Mockito.when(clientService.save(mockClient)).thenReturn(mockClient);		
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post(URI)
+				.contentType(MediaType.APPLICATION_JSON_VALUE);
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		MockHttpServletResponse response = result.getResponse();
+		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 	
 	@Test
-	public void testGetClientById() throws Exception {
-		//Given
+	public void should_return_existant_client_when_retrieving_by_id() throws Exception {
+
 		String URI = "/clients/"+mockClient.getId();
 		
-		//When
 		Mockito.when(clientService.findById(mockClient.getId())).thenReturn(mockClient);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -82,19 +94,15 @@ public class ClientControllerTest {
 		String expectedJson = this.mapToJson(mockClient);
 		String outputInJson = response.getContentAsString();
 		
-		//Then
 		assertEquals(outputInJson, expectedJson);
 	}
 	
 	@Test
-	public void testDeleteClient() throws Exception {
-		//Given
-        
-		//When
+	public void should_delete_client_when_retrieving_by_id() throws Exception {
+
 		clientService.deleteById(mockClient.getId());		
         final ClientEntity removed = clientService.findById(mockClient.getId());
       
-	   //Then
         assertNull(removed);
 	}
 	

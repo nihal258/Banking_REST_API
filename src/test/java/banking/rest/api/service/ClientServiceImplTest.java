@@ -29,7 +29,8 @@ private ClientService clientService = new ClientServiceImpl();
 private ClientEntityRepository clientRepository;
 
 @Test
-public void testFindById() {
+public void should_return_not_null_id_when_saving_new_client() {
+	
 	ClientEntity clientEntity = new ClientEntity();
 	clientEntity.setFirstName("Client");
 	clientEntity.setLastName("Client");
@@ -46,11 +47,11 @@ public void testFindById() {
 	ClientEntity savedClientEntity = clientService.save(clientEntity);
 	
 	assertNotNull(savedClientEntity.getId());
-	assertTrue(savedClientEntity.getId() > 0);
 }
 
 @Test
-public void testFindAll() {
+public void should_return_clients_size_greater_than_0_where_finding_all_clients () {
+	
 	ClientEntity clientEntity1 = new ClientEntity();
 	clientEntity1.setFirstName("Client1");
 	clientEntity1.setLastName("Client1");
@@ -71,7 +72,8 @@ public void testFindAll() {
 }
 
 @Test
-public void testDeleteById() {
+public void should_verify_deleted_client() {
+	
 	ClientEntity clientEntity = new ClientEntity();
 	clientEntity.setFirstName("Client");
 	clientEntity.setLastName("Client");

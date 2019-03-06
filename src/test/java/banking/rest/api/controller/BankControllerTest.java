@@ -39,11 +39,10 @@ public class BankControllerTest {
 	BankEntity mockBank = new BankEntity("SG");
 	
 	@Test
-	public void testAddBank() throws Exception {
-		//Given		
+	public void should_return_bank_added_ok_when_adding_new_bank() throws Exception {
+
 		String URI = "/bank";
 		
-		//When
 		Mockito.when(bankService.save(mockBank)).thenReturn(mockBank);		
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -56,19 +55,32 @@ public class BankControllerTest {
 		
 		String outputInJson = response.getContentAsString();
 		
-		//Then
 		assertEquals(outputInJson, "Bank added Successfully");
+	}
+	
+	@Test
+	public void should_return_http_status_200_when_adding_new_bank() throws Exception {
+
+		String URI = "/bank";
 		
-		//And 	
+		Mockito.when(bankService.save(mockBank)).thenReturn(mockBank);		
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post(URI)
+				.contentType(MediaType.APPLICATION_JSON_VALUE);
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		MockHttpServletResponse response = result.getResponse();
+		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 	
 	@Test
-	public void testGetBankById() throws Exception {
-		//Given
+	public void should_return_existant_bank_when_retrieving_by_id() throws Exception {
+		
 		String URI = "/banks/"+mockBank.getId();
 		
-		//When
 		Mockito.when(bankService.findById(mockBank.getId())).thenReturn(mockBank);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -82,19 +94,15 @@ public class BankControllerTest {
 		String expectedJson = this.mapToJson(mockBank);
 		String outputInJson = response.getContentAsString();
 		
-		//Then
 		assertEquals(outputInJson, expectedJson);
 	}
 	
 	@Test
-	public void testDeleteBank() throws Exception {
-		//Given
+	public void should_delete_bank_when_retrieving_by_id() throws Exception {
         
-		//When
 		bankService.deleteById(mockBank.getId());		
         final BankEntity removed = bankService.findById(mockBank.getId());
       
-	   //Then
         assertNull(removed);
 	}
 	

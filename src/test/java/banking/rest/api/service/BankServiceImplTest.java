@@ -30,7 +30,8 @@ private BankService bankService = new BankServiceImpl();
 private BankEntityRepository bankRepository;
 
 @Test
-public void testFindById() {
+public void should_return_not_null_id_when_saving_new_bank() {
+	
 	BankEntity bankEntity = new BankEntity();
 	bankEntity.setName("BNPP");
 	
@@ -46,11 +47,11 @@ public void testFindById() {
 	BankEntity savedBankEntity = bankService.save(bankEntity);
 	
 	assertNotNull(savedBankEntity.getId());
-	assertTrue(savedBankEntity.getId() > 0);
 }
 
 @Test
-public void testFindAll() {
+public void should_return_banks_size_greater_than_0_where_finding_all_banks() {
+	
 	BankEntity bankEntity1 = new BankEntity();
 	bankEntity1.setName("BNPP");
 	
@@ -68,7 +69,8 @@ public void testFindAll() {
 }
 
 @Test
-public void testDeleteById() {
+public void should_verify_deleted_bank() {
+	
 	BankEntity bankEntity = new BankEntity();
 	bankEntity.setName("BNPP");
 	

@@ -29,7 +29,7 @@ private OperationService operationService = new OperationServiceImpl();
 private OperationEntityRepository operationRepository;
 
 @Test
-public void testFindById() {
+public void should_return_not_null_id_when_saving_new_operation() {
 	
 	OperationEntity operationEntity = new OperationEntity();
 	operationEntity.setFromID(98);
@@ -50,11 +50,10 @@ public void testFindById() {
 	OperationEntity savedOperationEntity = operationService.save(operationEntity);
 	
 	assertNotNull(savedOperationEntity.getId());
-	assertTrue(savedOperationEntity.getId() > 0);
 }
 
 @Test
-public void testFindAll() {
+public void should_return_operations_size_greater_than_0_where_finding_all_operations () {
 	
 	OperationEntity operationEntity1 = new OperationEntity();
 	operationEntity1.setFromID(98);
@@ -85,7 +84,7 @@ public void testFindAll() {
 }
 
 @Test
-public void testDeleteById() {
+public void should_verify_deleted_operation() {
 	
 	OperationEntity operationEntity = new OperationEntity();
 	operationEntity.setFromID(98);
